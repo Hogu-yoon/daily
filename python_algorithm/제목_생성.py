@@ -36,4 +36,3 @@ for x in zip(title,add,date,pure_title):
     f.write(f"\"\"\"\n 제목 : {x[3]}\n문제 주소 : {x[1]},\n작성일 : {x[2]}\n\"\"\"")
     f.close()
 
-
