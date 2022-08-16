@@ -32,39 +32,33 @@
 """
 
 k = int(input())
-queue = []
+distance_list = []
 max_width_idx = [0, 0]
 max_height_idx = [0, 0]
 width = [1, 2]
 height = [3, 4]
 for i in range(6):
     a, b = map(int, input().split())
-    queue.append([a, b])
-    if a in width and b >= max_width_idx[0]:
-        max_width_idx = [b, i]
-    elif a in height and b >= max_height_idx[0]:
-        max_height_idx = [b, i]
+    distance_list.append([a, b])
+    if a in width:
+        if max_width_idx[0] <= b:
+            max_width_idx = [b, i]
+    elif a in height:
+        if b >= max_height_idx[0]:
+            max_height_idx = [b, i]
 
 max_rec_area = max_width_idx[0] * max_height_idx[0]
 
 if max_width_idx[1] > max_height_idx[1]:
-    try:
-        min_height = max_height_idx[0] - queue[max_width_idx[1] + 1][1]
-    except :
-        min_height = max_height_idx[0] - queue[0][1]
-    min_width = max_width_idx[0] - queue[max_height_idx[1] - 1][1]
+    min_height = distance_list[max_height_idx[1] - 2][1]
+    min_width = distance_list[max_width_idx[1] - 4][1]
 else:
-    try:
-        min_width = max_width_idx[0] - queue[max_height_idx[1] + 1][1]
-    except :
-        min_width = max_width_idx[0] - queue[0][1]
-    min_height = max_height_idx[0] - queue[max_width_idx[1] - 1][1]
-
+    min_height = distance_list[max_height_idx[1] - 4][1]
+    min_width = distance_list[max_width_idx[1] - 2][1]
 small_rec_area = min_width * min_height
-print(max_width_idx, max_height_idx)
-print("m_w", min_width, "m_h", min_height)
-print((max_rec_area - small_rec_area) * k)
-
+# print(max_width_idx, max_height_idx)
+# print("m_w", distance_list[-2], "m_h", min_height)
+# print((max_rec_area - small_rec_area) * k)
 
 # 1
 # 4 10
@@ -73,3 +67,15 @@ print((max_rec_area - small_rec_area) * k)
 # 1 1
 # 3 8
 # 1 9
+
+
+big = 0
+small = 0
+for i in range(6):
+    tmp = distance_list[i][1] * distance_list[(i + 1) % 6][1]
+    if big < tmp:
+        big = tmp
+        idx = i
+
+small = distance_list[(idx + 3) % 6][1] * distance_list[(idx + 4) % 6][1]
+print(k*(big - small))
