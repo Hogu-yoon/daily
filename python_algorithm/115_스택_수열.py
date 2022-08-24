@@ -56,7 +56,7 @@ for i in range(n):
 stack = []
 stack_temp = []
 number_card = 1
-x = target_numbers[0]
+# x = target_numbers[0]
 
 for x in target_numbers:
     while number_card <= x:
