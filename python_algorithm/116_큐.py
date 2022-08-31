@@ -65,12 +65,12 @@ class Queue:
     def __init__(self):
         self.head = None
         self.tail = None
-        self.back = -1
+        self.last = -1
         self.size = 0
 
     def push(self, value):
         new_node = Node(value)
-        self.back = new_node.data
+        self.last = new_node.data
         self.size += 1
         if self.empty():
             self.head = new_node
@@ -95,6 +95,11 @@ class Queue:
             return -1
         return self.head.data
 
+    def back(self):
+        if self.empty():
+            return -1
+        return self.last
+
     def empty(self):
         return self.head is None
 
@@ -111,7 +116,7 @@ def solution(queue: Queue, key, val=None):
     elif key == 'size':
         return queue.size
     elif key == 'back':
-        return queue.back
+        return queue.back()
     elif key == 'front':
         return queue.front()
 
