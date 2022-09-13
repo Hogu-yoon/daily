@@ -15,7 +15,11 @@
 삼각형을 이루고 있는 숫자는 0 이상 9,999 이하의 정수입니다.
 입출력 예
 triangle	result
-[[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]	30
+[   [7], 
+   [3, 8], 
+  [8, 1, 0], 
+ [2, 7, 4, 4], 
+[4, 5, 2, 6, 5]]	30
 """
 """
 7+3=10
@@ -26,29 +30,36 @@ j >>  i==j or i+1
 """
 
 triangle = [[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]
-visited = [[0] * (i + 1) for i in range(len(triangle))]
 
-print(visited)
-
-visited[0][0] = triangle[0][0]
 
 
 def solution(triangle):
-    answer = 0
-    return answer
+    visited = [[0] * (i + 1) for i in range(len(triangle))]
+
+    # print(visited)
+
+    visited[0][0] = triangle[0][0]
+    return triangle_dp(triangle,visited)
 
 
-def triangle_dp(x=0, y=0, cnt=0):
-    if cnt == 100:
-        return
+def triangle_dp(triangle,visited):
     for i in range(len(triangle) - 1):
-        print()
         for j in range(len(triangle[i])):
-            visited[i + 1][j] = visited[i][j] + triangle[i + 1][j]
-            print(visited)
+            """
+                   [7]
+                 [10, 15]
+               [18, 16, 15]
+             [20, 25,  0,  0]
+            [0,  0,  0,  0,  0]
+            visited[2][1] >> 16이 다음 triangle의 7과 더해질때 
+            기존 visited[3][1]>>25 와 비교후 더해야함
+            
+            """
+            visited[i + 1][j] = max(visited[i + 1][j], visited[i][j] + triangle[i + 1][j])
+            visited[i + 1][j + 1] = max(visited[i + 1][j + 1], visited[i][j] + triangle[i + 1][j + 1])
+            # print(*visited, sep="\n")
 
-    return  # triangle_dp(x, y, cnt + 1)
+    return max(visited[-1])
 
 
-triangle_dp()
-print(visited)
+print(solution(triangle))
